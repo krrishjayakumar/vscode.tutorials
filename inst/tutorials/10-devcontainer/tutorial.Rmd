@@ -238,7 +238,7 @@ question_text(NULL,
 
 ###
 
-
+The `image` field tells GitHub which pre-built setup to use --- think of it as choosing a computer that already has certain software installed. `mcr.microsoft.com/devcontainers/universal:2` is Microsoft's general-purpose setup with Python and several other programming languages pre-installed.
 
 ### Exercise 4
 
@@ -266,6 +266,8 @@ question_text(NULL,
 ```
 
 ###
+
+This block lists which VS Code extensions to pre-install. `ms-toolsai.jupyter` enables Jupyter notebooks; `ms-python.python` adds Python code completion and error highlighting.
 
 ### Exercise 5
 
@@ -305,7 +307,7 @@ Use AI to update the devcontainer so it installs and configures the environment 
 
 1. Copy and paste the entire document to your preferred AI chatbot.
 
-2. Use one of the AI command-line assistants (`gemini`, `claude`, `codex`, `agy`, or `aider`) in a bash Terminal in your `codespace-starter` Codespace.
+2. Use an AI command-line assistant in a bash Terminal in your `codespace-starter` Codespace.
 
 Copy and paste your new `devcontainer.json`.
 
@@ -345,11 +347,9 @@ question_text(NULL,
 
 ###
 
-Describing what you want in plain English works just as well for configuration files like `devcontainer.json` as it does for analysis code. Once comfortable, you can publish your own repo as a template and reuse it for future projects.
-
 ### Exercise 7
 
- Let's revert any changes we've made to `devcontainer.json`. Go to the Source Control side bar and press the revert button on the right.
+Let's revert any changes we've made to `devcontainer.json`. Go to the Source Control side bar and press the revert button on the right.
 
 ```{r}
 include_graphics("images/revert-devcontainer.png")
@@ -445,6 +445,14 @@ notebooks/cifar_net.pth
 .ipynb_checkpoints/
 ```
 
+###
+
+notebooks/data – skip the data folder; it's often huge and doesn't belong in Git. 
+
+notebooks/cifar_net.pth – skip the saved model file too; you can always regenerate it by rerunning training. 
+
+.ipynb_checkpoints/ – Jupyter's auto-save clutter. Nobody needs it in version control.
+
 ### Exercise 10
 
 Navigate to the `data` directory and open `atlantis.csv`. Paste the top 5 lines.
@@ -467,6 +475,9 @@ year,population
 2002,13800
 2003,13600
 ```
+###
+
+CSV (comma-separated values) is a plain-text format where each row is a record and each column is separated by a comma --- `atlantis.csv` contains simulated year-by-year population data for a fictional city.
 
 ### Exercise 11
 
@@ -488,6 +499,9 @@ question_text(NULL,
 
 This notebooks reads sample population data from `data/atlantis.csv` and plots it using Matplotlib. Edit `data/atlantis.csv` and re-run this cell to see how the plots change!
 ```
+###
+
+A `.ipynb` file is a Jupyter notebook --- like a Quarto document, it mixes text, code, and output in runnable cells. `populations.ipynb` reads population data from `atlantis.csv` and plots it with **matplotlib**, the same read-then-visualize workflow you've used in R.
 
 ### Exercise 12
 
@@ -606,6 +620,8 @@ question_text(NULL,
 ````
 https://curly-waffle-6vvgjxrjvj662pgq.github.dev/
 ````
+
+Your answer may look different from ours.
 
 ###
 
@@ -827,6 +843,33 @@ question_text(NULL,
 
 ### Exercise 9
 
+Now install an extension by hand instead of editing JSON. Open the Extensions view with `Ctrl+Shift+X` (or `Cmd+Shift+X` on Mac). Search for **"Rainbow CSV"** (or **"GitLens"**, if you prefer). Click **Install**.
+
+Once it finishes installing, copy and paste the confirmation --- e.g. the extension's entry in the Extensions sidebar showing **"Installed"**.
+
+```{r new-devcontainer-9}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 5)
+```
+
+###
+
+```
+Rainbow CSV
+mechatroner.rainbow-csv
+Installed
+```
+
+###
+
+Installing an extension through the Marketplace UI is a one-time, temporary fix — it only applies to this Codespace, and vanishes the moment you rebuild or start fresh. Adding it to the customizations.vscode.extensions array in devcontainer.json is the permanent fix: since it's committed to the repo, that extension installs automatically for anyone (including future you) who spins up a Codespace from r-devcontainer — no manual clicking required.
+
+### Exercise 10
+
 In the blank Codespace, go to the Source Control sidebar. Write a commit message like **"add R devcontainer"** and press the **Commit** button. Then press **"Publish Branch"**. Name the repository `r-devcontainer` and choose public.
 
 ```{r}
@@ -835,7 +878,7 @@ include_graphics("images/publish-cs.png")
 
 Run `git log --oneline`. CP/CR.
 
-```{r new-devcontainer-9}
+```{r new-devcontainer-10}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -857,11 +900,11 @@ main $
 
 `(HEAD -> main, origin/main)` on the same commit means your local branch and GitHub are up to date with each other.
 
-### Exercise 10
+### Exercise 11
 
 Go to GitHub. In the upper-right corner, click your profile picture, then select **"Your repositories"**. Click the repository named `r-devcontainer`. Paste the URL of the repo.
 
-```{r new-devcontainer-10}
+```{r new-devcontainer-11}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -875,18 +918,18 @@ question_text(NULL,
 ```
 https://github.com/ppbds-student/r-devcontainer
 ```
+Your answer may look different from ours.
 
-###
 
 This Codespace was created directly from a template, so there was no GitHub repo yet --- "Publish Branch" is what creates it.
 
-### Exercise 11
+### Exercise 12
 
 If you haven't already, stop the blank Codespace. Open the Command Palette with `Ctrl+Shift+P` (or `Cmd+Shift+P` on Mac), type `>stop`, and select **"Codespaces: Stop Current Codespace"**.
 
 Then go to `https://github.com/codespaces`. Find the row for the blank Codespace and copy and paste it.
 
-```{r new-devcontainer-11}
+```{r new-devcontainer-12}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -899,10 +942,42 @@ question_text(NULL,
 
 Stopped Codespaces don't use compute hours but still occupy storage --- they can be restarted at any time. Deleting a Codespace frees the storage entirely but cannot be undone.
 
+### Exercise 13
+
+Go to your `r-devcontainer` repo on GitHub (the one you published in Exercise 11). Click the green **"Code"** button, go to the **Codespaces** tab, and create a brand new Codespace directly from this repo --- do not reuse the old blank one.
+
+Once it finishes building, confirm that `devcontainer.json` was automatically applied. In the bash Terminal, run:
+
+```
+R --version
+```
+
+CP/CR, to confirm the tidyverse R image loaded automatically.
+
+```{r new-devcontainer-13}
+question_text(NULL,
+	answer(NULL, correct = TRUE),
+	allow_retry = TRUE,
+	try_again_button = "Edit Answer",
+	incorrect = NULL,
+	rows = 6)
+```
+
+###
+
+````
+R version 4.5.3 (2026-03-11) -- "Reassured Reassurer"
+````
+Note that your R version may differ as R releases new versions regularly.
+
+###
+
+This confirms the `.devcontainer` configuration you hand-wrote is portable and reproducible: you never told this new Codespace to install R or the R extension --- it read `devcontainer.json` from the repo and set itself up automatically. Anyone, including your future self, can clone or open a Codespace from `r-devcontainer` and get the exact same environment, without manually repeating any of the setup steps you did in Exercises 2 through 5.
+
 ## Summary
 ###
 
-This tutorial introduced devcontainers as a way to define and share consistent Codespace setups. You toured the Jupyter Notebook template's `devcontainer.json` --- its starting image, VS Code extensions, and startup command --- then built your own minimal R `devcontainer.json` from scratch, used AI to draft a first version, replaced it with a clean version, and rebuilt a Codespace to confirm it worked. The next tutorial, `11-codespace-starter`, tours a third, more elaborate `devcontainer.json`: the one behind `codespace-starter` itself.
+This tutorial introduced devcontainers as a way to define and share consistent Codespace setups. You toured the Jupyter Notebook template's `devcontainer.json` --- its starting image, VS Code extensions, and startup command --- then built your own minimal R `devcontainer.json` from scratch, used AI to draft a first version, replaced it with a clean version, and rebuilt a Codespace to confirm it worked. The next tutorial, `11-codebase-start`, tours a third, more elaborate `devcontainer.json`: the one behind `codespace-starter` itself.
 
 ### Exercise 1
 
